@@ -5,8 +5,6 @@ from HerculesApi.Store.model import Store
 
 
 class Worker(User):
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
     store = models.ForeignKey(Store)
     is_manager = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
