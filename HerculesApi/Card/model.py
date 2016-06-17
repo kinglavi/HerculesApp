@@ -5,6 +5,9 @@ from django.db import models
 class Card(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     campaign = models.OneToOneField(Campaign, on_delete=models.CASCADE)
-    auto_counter = models.AutoField()
+    auto_counter = models.IntegerField(auto_created=0)
+
+    def post_save(self):
+        self.auto_counter += 1
 
 
