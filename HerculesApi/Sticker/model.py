@@ -1,8 +1,11 @@
+from HerculesApi.Product.model import Product
 from django.db import models
 
 
 class Sticker(models.Model):
-    hash = models.CharField(max_length=500)
+    token = models.CharField(max_length=500)
+    is_used = models.BooleanField(default=False)
+    product = models.ForeignKey(Product)
     # qr_picture_url = models.CharField(max_length=500, default=None)
     #
     # def create_url_from_hash(self):

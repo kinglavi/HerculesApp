@@ -5,4 +5,4 @@ from Customer.model import Customer
 from Product.model import Product
 from Sticker.model import Sticker
 from Campaign.model import Campaign
-
+from Group.model import StoreAdminGroup
