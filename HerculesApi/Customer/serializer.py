@@ -8,4 +8,4 @@ class CustomerSerializer(serializers.ModelSerializer):
     groups = GroupSerializer(many=True, read_only=True)
 
     class Meta:
-        fields = ('username', 'gifts', 'email', 'groups')
+        fields = ('id', 'username', 'gifts', 'email', 'groups')

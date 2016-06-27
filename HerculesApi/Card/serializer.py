@@ -8,5 +8,5 @@ class CardSerializer(serializers.ModelSerializer):
     campaign = CampaignSerializer(many=False, read_only=True)
 
     class Meta:
-        fields = ('created_at', 'punch_counter',
+        fields = ('id', 'created_at', 'punch_counter',
                   'owner', 'campaign')

@@ -3,9 +3,9 @@ from rest_framework import serializers
 
 
 class StoreSerializer(serializers.ModelSerializer):
-    company = CompanySerializer(many=True, read_only=True)
+    company = CompanySerializer(many=False, read_only=True)
 
     class Meta:
-        fields = ('address', 'name',
+        fields = ('id', 'address', 'name',
                   'created_at', 'phone_number',
                   'company')

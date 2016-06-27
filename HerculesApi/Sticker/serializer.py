@@ -6,4 +6,4 @@ class StickerSerializer(serializers.ModelSerializer):
     product = ProductSerializer(many=True, read_only=True)
 
     class Meta:
-        fields = ('token', 'is_used', 'product')
+        fields = ('id', 'token', 'is_used', 'product')
