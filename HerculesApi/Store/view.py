@@ -4,5 +4,5 @@ from rest_framework import viewsets
 
 
 class StoreView(viewsets.ModelViewSet):
-    serializer_class = StoreSerializer()
+    serializer_class = StoreSerializer
     queryset = Store.objects.all()

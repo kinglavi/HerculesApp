@@ -5,7 +5,7 @@ from HerculesApi.Company.model import Company
 
 
 class CompanySerializer(serializers.ModelSerializer):
-    managers = GroupSerializer(many=True, read_only=True)
+    managers = GroupSerializer(many=False, read_only=True)
 
     class Meta:
         model = Company
