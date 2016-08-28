@@ -1,12 +1,10 @@
-from HerculesApi.Campaign.serializer import CampaignSerializer
-from HerculesApi.Card.model import Card
-from HerculesApi.Customer.serializer import CustomerSerializer
 from rest_framework import serializers
+from HerculesApi.Card.model import Card
 
 
 class CardSerializer(serializers.ModelSerializer):
-    owner = CustomerSerializer(many=False, read_only=True)
-    campaign = CampaignSerializer(many=False, read_only=True)
+    # owner = CustomerSerializer(many=False, read_only=True)
+    # campaign = CampaignSerializer(many=False, read_only=True)
 
     class Meta:
         model = Card
