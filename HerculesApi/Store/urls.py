@@ -7,7 +7,7 @@ router = routers.SimpleRouter()
 router.register(r'stores', StoreView)
 
 urlpatterns = [
-    url(r'store-gifts/(?P<store_id>[^/]+)/$', store_gifts_view),
+    url(r'^stores/gifts/(?P<store_id>[^/]+)/$', store_gifts_view),
 ]
 
 urlpatterns += router.urls

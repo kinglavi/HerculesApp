@@ -90,7 +90,7 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('phone_number', models.CharField(max_length=30)),
                 ('company', models.ForeignKey(to='HerculesApi.Company')),
-                ('managers', models.ManyToManyField(to='auth.Group')),
+                ('managers', models.ManyToManyField(default=None, to='auth.Group')),
             ],
         ),
         migrations.AddField(

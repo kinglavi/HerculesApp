@@ -5,8 +5,8 @@ from rest_framework import serializers
 
 
 class CustomerSerializer(serializers.ModelSerializer):
-    gifts = CampaignSerializer(many=True, read_only=True)
-    groups = GroupSerializer(many=True, read_only=True)
+    # gifts = CampaignSerializer(many=True, read_only=True)
+    # groups = GroupSerializer(many=True, read_only=True)
 
     class Meta:
         model = Customer

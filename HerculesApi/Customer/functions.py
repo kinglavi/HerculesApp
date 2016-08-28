@@ -9,12 +9,7 @@ def get_customer_store_gifts(cust, store):
     :param store:
     :return:
     """
-    gifts = []
-    for gift in cust.gifts.all():
-        if gift.store == store:
-            gifts += gift
-
-    return gifts.values()
+    return cust.gifts.all().filter(store=store).values()
 
 
 def get_customer_gifts(user):

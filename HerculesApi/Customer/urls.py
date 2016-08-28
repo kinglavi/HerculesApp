@@ -7,7 +7,7 @@ router = routers.SimpleRouter()
 router.register(r'customers', CustomerView)
 
 urlpatterns = [
-    url(r'gifts/', get_customer_gifts_view),
+    url(r'^gifts/$', get_customer_gifts_view),
 ]
 
 urlpatterns += router.urls
