@@ -33,7 +33,7 @@ class Card(models.Model):
             self.delete()
             return
 
-        # TODO: create a transaction that save noth sticker and card together
+        # TODO: create a transaction that save both sticker and card together
         sticker.save()
         self.save()
 

@@ -6,7 +6,7 @@ router = routers.SimpleRouter()
 router.register(r'cards', CardsView)
 
 urlpatterns = [
-    url(r'cards/(?P<card_id>[^/]+)/$', increase_card_counter_view),
+    url(r'cards/(?P<card_id>[^/]+)/inc$', increase_card_counter_view),
 ]
 
 urlpatterns += router.urls

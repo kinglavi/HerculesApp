@@ -32,5 +32,7 @@ def get_card_by_user(user, card_id):
 
 
 def increase_card_punch_counter(user, card_id, token):
+
     card = get_card_by_user(user, card_id)
+    # TODO: if card doesnt exists - create new one.
     card.increase_punch_counter(token)

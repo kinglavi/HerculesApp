@@ -5,7 +5,7 @@ from HerculesApi.Store.model import Store
 
 
 class StoreSerializer(serializers.ModelSerializer):
-    company = CompanySerializer(many=False, read_only=True)
+    # company = CompanySerializer(many=False, read_only=True)
 
     class Meta:
         model = Store
