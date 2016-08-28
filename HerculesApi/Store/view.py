@@ -13,5 +13,5 @@ class StoreView(viewsets.ModelViewSet):
 
 
 @api_view(['GET'])
-def store_view(request, store_id):
+def store_gifts_view(request, store_id):
     return Response(get_gifts_by_store(request.user, int(store_id)), status=HTTP_200_OK)
