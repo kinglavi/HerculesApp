@@ -13,13 +13,14 @@ from HerculesApi.Permissions.permissions import IsAdminOrReadOnly
 class CardsView(viewsets.ModelViewSet):
     serializer_class = CardSerializer
     queryset = Card.objects.all()
-    Permission_classes = (IsAdminOrReadOnly,)
+    permission_classes = (IsAdminOrReadOnly,)
 
     def get_queryset(self):
         return get_cards_queryset_by_user(self.request.user)
 
+
 @api_view(['POST'])
-def  increase_card_counter_view(request, card_id):
+def increase_card_counter_view(request, card_id):
     """
         Increase the punch_counter if the reqeust user is the owner of the card or
         the reques user is superuser

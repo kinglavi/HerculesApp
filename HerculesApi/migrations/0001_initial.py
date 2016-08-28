@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('punch_counter', models.IntegerField(auto_created=0)),
+                ('punch_counter', models.IntegerField(default=0)),
                 ('campaign', models.OneToOneField(to='HerculesApi.Campaign')),
             ],
         ),
@@ -40,6 +40,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=100)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('description', models.CharField(max_length=500)),
+                ('managers', models.OneToOneField(to='auth.Group')),
             ],
             options={
                 'ordering': ('name',),
@@ -49,7 +50,7 @@ class Migration(migrations.Migration):
             name='Customer',
             fields=[
                 ('user_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
-                ('gifts', models.ManyToManyField(to='HerculesApi.Campaign')),
+                ('gifts', models.ManyToManyField(to='HerculesApi.Campaign', null=True)),
             ],
             options={
                 'abstract': False,
@@ -84,24 +85,13 @@ class Migration(migrations.Migration):
             name='Store',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=200)),
                 ('address', models.CharField(max_length=200)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('phone_number', models.CharField(max_length=30)),
                 ('company', models.ForeignKey(to='HerculesApi.Company')),
+                ('managers', models.ManyToManyField(to='auth.Group')),
             ],
-        ),
-        migrations.CreateModel(
-            name='StoreAdminGroup',
-            fields=[
-                ('group_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='auth.Group')),
-                ('store', models.ManyToManyField(to='HerculesApi.Store')),
-            ],
-            bases=('auth.group',),
-        ),
-        migrations.AddField(
-            model_name='company',
-            name='managers',
-            field=models.OneToOneField(to='auth.Group'),
         ),
         migrations.AddField(
             model_name='card',
