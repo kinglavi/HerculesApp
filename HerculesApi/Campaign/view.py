@@ -9,3 +9,12 @@ class CampaignView(viewsets.ModelViewSet):
     """
     serializer_class = CampaignSerializer
     queryset = Campaign.objects.all()
+    # permission_classes = ()
+
+    # TODO: user has to see only his own campaigns.
+    # def get_queryset(self):
+    #     pass
+
+    def pre_save(self):
+        # TODO: check the end_date is bigger than created_at
+        print "lavigever"

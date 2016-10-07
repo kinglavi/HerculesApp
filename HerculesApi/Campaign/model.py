@@ -7,10 +7,9 @@ from django.db import models
 
 class Campaign(models.Model):
     store = models.ForeignKey(Store)
-    product = models.OneToOneField(Product)
     goal = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
-    # TODO: check the end_date is bigger than created_at
+
     end_date = models.DateTimeField(default=None)
     end_date_value = None if end_date is not None\
         else created_at+timedelta(days=DEFAULT_CAMPAIGN_TIME_IN_DAYS)
