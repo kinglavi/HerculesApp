@@ -20,16 +20,18 @@ class CardsView(viewsets.ModelViewSet):
 
 
 @api_view(['POST'])
-def increase_card_counter_view(request, card_id):
+def increase_card_counter_view(request):
     """
         Increase the punch_counter if the reqeust user is the owner of the card or
         the reques user is superuser
     :param request:
-    :param card_id: The id of the card
     :return: If success return 201
     """
     try:
-        increase_card_punch_counter(request.user, int(card_id), request.data['token'])
+        increase_card_punch_counter(request.user, request.data['token'])
     except Exception as e:
-        raise APIException("Error occurred increasing punch counter of card %s." % card_id)
+        if e.detail[0]:
+            raise APIException(e.detail[0])
+        else:
+            raise APIException("Error occurred increasing punch counter of card." )
     return Response("Counter raised.", status=HTTP_200_OK)

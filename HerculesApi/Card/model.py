@@ -1,10 +1,8 @@
-from rest_framework.exceptions import ValidationError, NotFound, APIException
+from django.db import models
+from rest_framework.exceptions import ValidationError, APIException
 
 from HerculesApi.Campaign.model import Campaign
 from HerculesApi.Customer.model import Customer
-from django.db import models
-
-from HerculesApi.Sticker.model import Sticker
 
 
 class Card(models.Model):

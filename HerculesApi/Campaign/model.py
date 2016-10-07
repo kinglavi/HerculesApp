@@ -1,8 +1,9 @@
 from datetime import timedelta
-from HerculesApi.Campaign.conf import DEFAULT_CAMPAIGN_TIME_IN_DAYS
-from HerculesApi.Product.model import Product
-from HerculesApi.Store.model import Store
+
 from django.db import models
+
+from HerculesApi.Campaign.conf import DEFAULT_CAMPAIGN_TIME_IN_DAYS
+from HerculesApi.Store.model import Store
 
 
 class Campaign(models.Model):

@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)# validators=[company_name_validator])
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     description = models.CharField(max_length=500)
     managers = models.OneToOneField(Group, on_delete=models.CASCADE)

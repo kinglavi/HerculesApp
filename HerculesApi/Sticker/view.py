@@ -10,3 +10,4 @@ class StickersView(viewsets.ModelViewSet):
     """
     serializer_class = StickerSerializer
     queryset = Sticker.objects.all()
+    # permission_class = ONLY_ADMINS

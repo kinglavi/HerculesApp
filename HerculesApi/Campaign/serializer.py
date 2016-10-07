@@ -6,7 +6,7 @@ from rest_framework import serializers
 
 class CampaignSerializer(serializers.ModelSerializer):
     # Maybe serializer the store. hyperlink/nested/slug
-    store = StoreSerializer(many=False, read_only=True)
+    # store = StoreSerializer(many=False, read_only=True)
 
     class Meta:
         model = Campaign
