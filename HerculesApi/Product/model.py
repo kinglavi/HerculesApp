@@ -1,3 +1,4 @@
+from HerculesApi.Store.model import Store
 from django.db import models
 
 
@@ -5,6 +6,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=500, blank=True)
     # secret_key = models.CharField(max_length=100)
+    store = models.ForeignKey(Store)
     sticker_counter = models.IntegerField(default=0)
     price = models.IntegerField()
 

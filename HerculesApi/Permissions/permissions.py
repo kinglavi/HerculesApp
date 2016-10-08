@@ -1,5 +1,6 @@
 from HerculesApi.Campaign.functions import get_campaign_by_id
 from HerculesApi.Company.functions import get_company_by_id
+from HerculesApi.Product.functions import get_product_by_id
 from HerculesApi.Store.functions import get_store_by_id
 from django.contrib.auth.models import Group
 from rest_framework.permissions import BasePermission, SAFE_METHODS
@@ -15,22 +16,33 @@ class IsAdminOrReadOnly(BasePermission):
 
 
 def is_admin_or_company_manager(user, store_id=None, campaign_id=None, company_id=None,
-                                managers_group_id=None):
+                                managers_group_id=None, include_workers=False,
+                                product_id=None):
     """
     Campaign manager means that the user is one of the
     managers of the company (not the store)
+    Notice: write now there is no use for the include workers
     :param user:
     :param store_id:
     """
+    store = None
+    workers = []
     if managers_group_id:
         managers = Group.objects.get(managers_group_id)
     else:
         if company_id:
             company = get_company_by_id(company_id)
         else:
-            if not store_id:
-                store_id = get_campaign_by_id(campaign_id).store.id
-            company = get_store_by_id(store_id).company
+            if store_id:
+                store = get_store_by_id(store_id)
+            elif campaign_id:
+                store = get_campaign_by_id(campaign_id).store
+            elif product_id:
+                store = get_product_by_id(product_id).store
+            company = store.company
         managers = company.managers
+        if store and include_workers:
+            workers = store.managers.all()
 
-    return managers in user.groups.all() or user.is_superuser
+    return managers in user.groups.all() or user.is_superuser or \
+                                         any(g in user.groups.all() for g in workers)

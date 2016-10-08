@@ -43,7 +43,7 @@ camp = Campaign(name="LaviCampaign", store=s, goal=10, description="The best cam
                 end_date=datetime.datetime.now() + timedelta(days=50))
 camp.save()
 
-p = Product(name='lavi_product', description='This is Lavi product.', price=50)
+p = Product(name='lavi_product', description='This is Lavi product.', price=50,store=s)
 p.save()
 
 camp.products.add(p)
