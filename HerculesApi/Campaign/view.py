@@ -41,6 +41,7 @@ class CampaignView(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         validate_campaign_data(self.request.data)
+        super(CampaignView, self).perform_create(serializer)
 
 
 @api_view(['GET'])

@@ -1,7 +1,7 @@
 from HerculesApi.Permissions.permissions import is_admin_or_company_manager
 from HerculesApi.Product.functions import get_products_by_user
+from HerculesApi.Product.model import Product
 from HerculesApi.Product.serializer import ProductSerializer
-from HerculesApi.Store.functions import get_stores_by_user
 from rest_framework import viewsets
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
@@ -34,3 +34,8 @@ class ProductView(viewsets.ModelViewSet):
             return super(ProductView, self).destroy(request, *args, **kwargs)
         else:
             raise PermissionDenied("Only the manager of the company can edit campaigns.")
+
+    def perform_create(self, serializer):
+        # TODO: check that data doesnt have value for sticker counter.(Must start with 0)
+        pass
+        super(ProductView, self).perform_create(serializer)
