@@ -1,7 +1,10 @@
+from HerculesApi.Campaign.validation import validate_campaign_data
 from rest_framework.decorators import api_view
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from HerculesApi.Campaign.functions import get_products_by_campaign
+from HerculesApi.Campaign.functions import get_products_by_campaign, is_admin_or_company_manager
 from HerculesApi.Campaign.model import Campaign
 from HerculesApi.Campaign.serializer import CampaignSerializer
 from rest_framework import viewsets
@@ -14,15 +17,28 @@ class CampaignView(viewsets.ModelViewSet):
     serializer_class = CampaignSerializer
     queryset = Campaign.objects.all()
 
-    # permission_classes = ()
+    permission_classes = (IsAuthenticated,)
 
-    # TODO: user has to see only his own campaigns.
-    # def get_queryset(self):
-    #     pass
+    def create(self, request, *args, **kwargs):
+        if is_admin_or_company_manager(request.user, request.data['store']):
+            return super(CampaignView, self).create(request, *args, **kwargs)
+        else:
+            raise PermissionDenied("Only the manager of the company can create campaigns.")
 
-    def pre_save(self):
-        # TODO: check the end_date is bigger than created_at
-        print "lavigever"
+    def update(self, request, *args, **kwargs):
+        if is_admin_or_company_manager(request.user, request.data['store']):
+            return super(CampaignView, self).update(request, *args, **kwargs)
+        else:
+            raise PermissionDenied("Only the manager of the company can edit campaigns.")
+
+    def destroy(self, request, *args, **kwargs):
+        if is_admin_or_company_manager(request.user, campaign_id=kwargs.get('pk')):
+            return super(CampaignView, self).destroy(request, *args, **kwargs)
+        else:
+            raise PermissionDenied("Only the manager of the company can edit campaigns.")
+
+    def perform_create(self, serializer):
+        validate_campaign_data(self.request.data)
 
 
 @api_view(['GET'])

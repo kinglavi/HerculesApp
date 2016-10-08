@@ -1,4 +1,5 @@
 from datetime import timedelta
+from HerculesApi.Product.model import Product
 
 from django.db import models
 
@@ -7,6 +8,8 @@ from HerculesApi.Store.model import Store
 
 
 class Campaign(models.Model):
+    name = models.CharField(max_length=100)
+    products = models.ManyToManyField(Product)
     store = models.ForeignKey(Store)
     goal = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
