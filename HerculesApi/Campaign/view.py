@@ -1,10 +1,11 @@
 from HerculesApi.Campaign.validation import validate_campaign_data
+from HerculesApi.Permissions.permissions import is_admin_or_company_manager
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from HerculesApi.Campaign.functions import get_products_by_campaign, is_admin_or_company_manager
+from HerculesApi.Campaign.functions import get_products_by_campaign
 from HerculesApi.Campaign.model import Campaign
 from HerculesApi.Campaign.serializer import CampaignSerializer
 from rest_framework import viewsets
@@ -20,13 +21,13 @@ class CampaignView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
     def create(self, request, *args, **kwargs):
-        if is_admin_or_company_manager(request.user, request.data['store']):
+        if is_admin_or_company_manager(request.user, store_id=request.data['store']):
             return super(CampaignView, self).create(request, *args, **kwargs)
         else:
             raise PermissionDenied("Only the manager of the company can create campaigns.")
 
     def update(self, request, *args, **kwargs):
-        if is_admin_or_company_manager(request.user, request.data['store']):
+        if is_admin_or_company_manager(request.user, store_id=request.data['store']):
             return super(CampaignView, self).update(request, *args, **kwargs)
         else:
             raise PermissionDenied("Only the manager of the company can edit campaigns.")

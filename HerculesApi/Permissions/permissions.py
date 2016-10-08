@@ -1,3 +1,6 @@
+from HerculesApi.Campaign.functions import get_campaign_by_id
+from HerculesApi.Company.functions import get_company_by_id
+from HerculesApi.Store.functions import get_store_by_id
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
@@ -8,3 +11,20 @@ class IsAdminOrReadOnly(BasePermission):
                 return True
             else:
                 return request.user.is_staff or request.user.is_superuser
+
+
+def is_admin_or_company_manager(user, store_id=None, campaign_id=None, company_id=None):
+    """
+    Campaign manager means that the user is one of the
+    managers of the company (not the store)
+    :param user:
+    :param store_id:
+    """
+    if company_id:
+        company = get_company_by_id(company_id)
+    else:
+        if not store_id:
+            store_id = get_campaign_by_id(campaign_id).store.id
+        company = get_store_by_id(store_id).company
+
+    return company.managers in user.groups.all() or user.is_superuser

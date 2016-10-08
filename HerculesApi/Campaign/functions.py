@@ -1,5 +1,3 @@
-from HerculesApi.Store.functions import get_store_by_id
-from HerculesApi.Store.model import Store
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.exceptions import NotFound
 
@@ -27,13 +25,4 @@ def get_campaign_by_id(campaign_id):
     return campaign
 
 
-def is_admin_or_company_manager(user, store_id=None, campaign_id=None):
-    """
-    Campaign manager means that the user is one of the
-    managers of the company (not the store)
-    :param user:
-    :param store_id:
-    """
-    if not store_id:
-        store_id = get_campaign_by_id(campaign_id).store.id
-    return get_store_by_id(store_id).company.managers in user.groups.all() or user.is_superuser
+

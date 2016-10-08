@@ -8,5 +8,8 @@ class Company(models.Model):
     description = models.CharField(max_length=500)
     managers = models.OneToOneField(Group, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         ordering = ('name',)
