@@ -19,6 +19,9 @@ class CardsView(viewsets.ModelViewSet):
         return get_cards_queryset_by_user(self.request.user)
 
 
+# TODO: create a view that get all cards by store.
+# TODO: create a view that get all cards by company.
+
 @api_view(['POST'])
 def increase_card_counter_view(request):
     """

@@ -15,6 +15,15 @@ class IsAdminOrReadOnly(BasePermission):
                 return request.user.is_staff or request.user.is_superuser
 
 
+class IsSuperUserOrIsStaff(BasePermission):
+    """
+    Allows access only to admin users.
+    """
+
+    def has_permission(self, request, view):
+        return request.user and request.user.is_staff or request.user.is_superuser
+
+
 def is_admin_or_company_manager(user, store_id=None, campaign_id=None, company_id=None,
                                 managers_group_id=None, include_workers=False,
                                 product_id=None):
@@ -45,4 +54,4 @@ def is_admin_or_company_manager(user, store_id=None, campaign_id=None, company_i
             workers = store.managers.all()
 
     return managers in user.groups.all() or user.is_superuser or \
-                                         any(g in user.groups.all() for g in workers)
+           any(g in user.groups.all() for g in workers)

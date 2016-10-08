@@ -1,3 +1,4 @@
+from HerculesApi.Permissions.permissions import IsSuperUserOrIsStaff
 from rest_framework import viewsets
 
 from HerculesApi.Sticker.model import Sticker
@@ -10,4 +11,4 @@ class StickersView(viewsets.ModelViewSet):
     """
     serializer_class = StickerSerializer
     queryset = Sticker.objects.all()
-    # permission_class = ONLY_ADMINS
+    permission_class = (IsSuperUserOrIsStaff,)
