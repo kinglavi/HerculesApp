@@ -9,7 +9,7 @@ def get_companies_by_user(user):
     """
     # if admin than all else only user's companies.
     if not user.is_superuser:
-        return Company.objects.filter(managers_in=user.groups.all())
+        return Company.objects.filter(managers__in=user.groups.all())
     else:
         Company.objects.all()
 

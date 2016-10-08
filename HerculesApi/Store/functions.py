@@ -28,10 +28,17 @@ def get_gifts_by_store(user, store_id):
 
 
 def get_stores_by_user(user):
+    """
+    Get all the stores that the user in manager of their company or worker in the store.
+    :return Queryset of stores.
+    """
     if user.is_superuser:
         qs_stores = Store.objects.all()
     else:
-        qs_stores = Store.objects.filter(Q(managers__in=user.groups.all()) |
-                                         Q(company__in=get_companies_by_user(user)))
+        qs_stores = \
+            Store.objects.filter(
+                # TODO: Maybe remove managers__in cuz worker cannot edit the store
+                Q(managers__in=user.groups.all()) |
+                Q(company__in=get_companies_by_user(user)))
 
     return qs_stores

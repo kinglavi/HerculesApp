@@ -1,11 +1,12 @@
 from HerculesApi.Campaign.validation import validate_campaign_data
 from HerculesApi.Permissions.permissions import is_admin_or_company_manager
+from rest_framework.compat import is_authenticated
 from rest_framework.decorators import api_view
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import PermissionDenied, NotAuthenticated
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from HerculesApi.Campaign.functions import get_products_by_campaign
+from HerculesApi.Campaign.functions import get_products_by_campaign, get_campaigns_by_user
 from HerculesApi.Campaign.model import Campaign
 from HerculesApi.Campaign.serializer import CampaignSerializer
 from rest_framework import viewsets
@@ -40,6 +41,19 @@ class CampaignView(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         validate_campaign_data(self.request.data)
+
+
+@api_view(['GET'])
+def get_campaigns_by_user_view(request):
+    """
+    Get only the campaigns that the user has permission to edit.
+    :param request:
+    :return:
+    """
+    if is_authenticated(request.user):
+        return Response(get_campaigns_by_user(request.user).values())
+    else:
+        raise NotAuthenticated
 
 
 @api_view(['GET'])

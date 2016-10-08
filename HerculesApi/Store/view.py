@@ -1,7 +1,8 @@
 from HerculesApi.Permissions.permissions import is_admin_or_company_manager
-from HerculesApi.Store.functions import get_gifts_by_store
+from HerculesApi.Store.functions import get_gifts_by_store, get_stores_by_user
+from rest_framework.compat import is_authenticated
 from rest_framework.decorators import api_view
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import PermissionDenied, NotAuthenticated
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
@@ -37,3 +38,11 @@ class StoreView(viewsets.ModelViewSet):
 @api_view(['GET'])
 def store_gifts_view(request, store_id):
     return Response(get_gifts_by_store(request.user, int(store_id)), status=HTTP_200_OK)
+
+
+@api_view(['GET'])
+def get_stores_by_user_view(request):
+    if is_authenticated(request.user):
+        return Response(get_stores_by_user(request.user).values())
+    else:
+        raise NotAuthenticated
