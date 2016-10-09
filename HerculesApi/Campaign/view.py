@@ -6,10 +6,12 @@ from rest_framework.exceptions import PermissionDenied, NotAuthenticated
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from HerculesApi.Campaign.functions import get_products_by_campaign, get_campaigns_by_user
+from HerculesApi.Campaign.functions import get_products_by_campaign, get_campaigns_by_user, get_campaigns_by_store, \
+    get_campaigns_by_company
 from HerculesApi.Campaign.model import Campaign
 from HerculesApi.Campaign.serializer import CampaignSerializer
 from rest_framework import viewsets
+from rest_framework.status import HTTP_200_OK
 
 
 class CampaignView(viewsets.ModelViewSet):
@@ -59,4 +61,20 @@ def get_campaigns_by_user_view(request):
 
 @api_view(['GET'])
 def get_products_by_campaign_view(request, camp_id):
+    if not is_authenticated(request.user):
+        raise PermissionDenied("You must be logged in to see this page..")
     return Response(get_products_by_campaign(camp_id).values())
+
+
+@api_view(['GET'])
+def get_campaigns_by_store_view(request, store_id):
+    if not is_authenticated(request.user):
+        raise PermissionDenied("You must be logged in to see this page..")
+    return Response(get_campaigns_by_store(store_id).values(), status=HTTP_200_OK)
+
+
+@api_view(['GET'])
+def get_campaigns_by_company_view(request, company_id):
+    if not is_authenticated(request.user):
+        raise PermissionDenied("You must be logged in to see this page..")
+    return Response(get_campaigns_by_company(company_id).values(), status=HTTP_200_OK)
