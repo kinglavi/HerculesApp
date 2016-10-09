@@ -1,13 +1,14 @@
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
-from rest_framework.exceptions import APIException
+from rest_framework.exceptions import APIException, PermissionDenied
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
 
-from HerculesApi.Card.functions import increase_card_punch_counter, get_cards_queryset_by_user
+from HerculesApi.Card.functions import increase_card_punch_counter, get_cards_queryset_by_user, get_all_cards_by_store, \
+    get_all_cards_by_company
 from HerculesApi.Card.model import Card
 from HerculesApi.Card.serializer import CardSerializer
-from HerculesApi.Permissions.permissions import IsAdminOrReadOnly
+from HerculesApi.Permissions.permissions import IsAdminOrReadOnly, is_admin_or_company_manager
 
 
 class CardsView(viewsets.ModelViewSet):
@@ -19,8 +20,22 @@ class CardsView(viewsets.ModelViewSet):
         return get_cards_queryset_by_user(self.request.user)
 
 
-# TODO: create a view that get all cards by store.
-# TODO: create a view that get all cards by company.
+@api_view(['GET'])
+def get_all_cards_by_store_view(request, store_id):
+    if is_admin_or_company_manager(request.user, store_id=store_id,
+                                   include_workers=True):
+        return Response(get_all_cards_by_store(store_id).values(), status=HTTP_200_OK)
+    else:
+        raise PermissionDenied("Only workers in the store or company managers can see the cards in the store.")
+
+
+@api_view(['GET'])
+def get_all_cards_by_company_view(request, company_id):
+    if is_admin_or_company_manager(request.user, company_id=True):
+        return Response(get_all_cards_by_company(company_id).values(), status=HTTP_200_OK)
+    else:
+        raise PermissionDenied("Only managers of the company can see the cards in the store.")
+
 
 @api_view(['POST'])
 def increase_card_counter_view(request):
@@ -36,5 +51,5 @@ def increase_card_counter_view(request):
         if e.detail[0]:
             raise APIException(e.detail[0])
         else:
-            raise APIException("Error occurred increasing punch counter of card." )
+            raise APIException("Error occurred increasing punch counter of card.")
     return Response("Counter raised.", status=HTTP_200_OK)

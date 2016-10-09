@@ -1,4 +1,4 @@
-from HerculesApi.Store.functions import get_stores_by_user
+from HerculesApi.Store.functions import get_stores_by_user, get_stores_by_company
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.exceptions import NotFound
 
@@ -16,6 +16,14 @@ def get_products_by_campaign(camp_id):
     except ObjectDoesNotExist as e:
         raise NotFound("Campaign id %s doesnt exists." % camp_id)
     return Product.objects.filter(id=camp_id)
+
+
+def get_campaigns_by_store(store):
+    return Campaign.objects.filter(store=store)
+
+
+def get_campaigns_by_company(company):
+    return Campaign.objects.filter(store__in=get_stores_by_company(company))
 
 
 def get_campaigns_by_user(user):

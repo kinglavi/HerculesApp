@@ -42,3 +42,7 @@ def get_stores_by_user(user):
                 Q(company__in=get_companies_by_user(user)))
 
     return qs_stores
+
+
+def get_stores_by_company(company):
+    return Store.objects.filter(company=company)

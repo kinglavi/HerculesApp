@@ -11,4 +11,4 @@ class StickersView(viewsets.ModelViewSet):
     """
     serializer_class = StickerSerializer
     queryset = Sticker.objects.all()
-    permission_class = (IsSuperUserOrIsStaff,)
+    permission_classes = (IsSuperUserOrIsStaff,)

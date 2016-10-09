@@ -1,4 +1,7 @@
+from HerculesApi.Campaign.functions import get_campaigns_by_store, get_campaigns_by_company
+from HerculesApi.Company.functions import get_company_by_id
 from HerculesApi.Sticker.model import Sticker
+from HerculesApi.Store.functions import get_store_by_id
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from rest_framework.exceptions import NotFound, PermissionDenied
 
@@ -18,6 +21,16 @@ def get_group_of_store(store):
     for g in store.admin.groups:
         # TODO: ??
         pass
+
+
+def get_all_cards_by_store(store_id):
+    store = get_store_by_id(store_id)
+    return Card.objects.filter(campaign__in=get_campaigns_by_store(store))
+
+
+def get_all_cards_by_company(company_id):
+    company = get_company_by_id(company_id)
+    return Card.objects.filter(campaign__in=get_campaigns_by_company(company))
 
 
 def get_card_by_user(user, sticker):
