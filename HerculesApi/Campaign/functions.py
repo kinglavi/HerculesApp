@@ -19,6 +19,7 @@ def get_products_by_campaign(camp_id):
 
 
 def get_campaigns_by_store(store):
+    # TODO: maybe check if the store exists.
     return Campaign.objects.filter(store=store)
 
 
