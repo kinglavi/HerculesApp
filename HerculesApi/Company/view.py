@@ -32,14 +32,31 @@ class CompaniesView(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         is_user_able_to_create_company(self.request.user)
-        g = create_group(self.request.user, self.request.data['name'])
-        # TODO: fix this shit
-        self.request.data['managers'] = [g.id]
         super(CompaniesView, self).perform_create(serializer)
 
     def perform_destroy(self, instance):
-        print "lalalala"
+        # TODO: delete the group of the company
+        # delete_group(instance[''])
         super(CompaniesView, self).perform_destroy(instance)
+
+    def get_serializer(self, *args, **kwargs):
+        """
+        Return the serializer instance that should be used for validating and
+        deserializing input, and for serializing output.
+        """
+        serializer_class = self.get_serializer_class()
+        kwargs['context'] = self.get_serializer_context()
+        return serializer_class(*args, **kwargs)
+
+    def get_serializer_context(self):
+        """
+        Extra context provided to the serializer class.
+        """
+        return {
+            'request': self.request,
+            'format': self.format_kwarg,
+            'view': self
+        }
 
 
 @api_view(['GET'])

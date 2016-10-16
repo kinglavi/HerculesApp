@@ -8,8 +8,7 @@ def create_group(user, group_name):
     # TODO: maybe add prefix to the group name to distinguish between company group and store group
     # TODO: or maybe create class for each one of them.
     try:
-        g = Group(name=group_name)
-        g.save()
+        g = Group.objects.create(name=group_name)
     except IntegrityError as e:
         e = APIException("There is already a group name %s. Choose different company name." % group_name)
         e.status_code = BAD_REQUEST
