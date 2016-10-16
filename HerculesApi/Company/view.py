@@ -33,7 +33,8 @@ class CompaniesView(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         is_user_able_to_create_company(self.request.user)
         g = create_group(self.request.user, self.request.data['name'])
-        self.request.data['managers'] = g.id
+        # TODO: fix this shit
+        self.request.data['managers'] = [g.id]
         super(CompaniesView, self).perform_create(serializer)
 
     def perform_destroy(self, instance):
