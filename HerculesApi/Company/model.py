@@ -4,14 +4,13 @@ from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from django.db import models
 
+from HerculesApi.Validators.validators import GLOBAL_ALPHANUMERIC_NAME_VALIDATOR
+
 
 class Company(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-                            # validators=
-                            # [RegexValidator(
-                            #     regex='^[a-zA-Z0-9 _-]*$',
-                            #     message="Name must be Alphanumberic. (optional characters: _,-, )",
-                            #     code="Invalid company name.")])
+    name = models.CharField(max_length=100, unique=True,
+                            validators=
+                            [GLOBAL_ALPHANUMERIC_NAME_VALIDATOR])
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     description = models.CharField(max_length=500)
     managers = models.ManyToManyField(User, blank=True)

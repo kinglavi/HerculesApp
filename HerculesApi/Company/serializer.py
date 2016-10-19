@@ -19,7 +19,7 @@ class CompanySerializer(serializers.ModelSerializer):
         requested_user = self.context['request'].user
         if requested_user not in validated_data['managers']:
             validated_data['managers'].append(requested_user)
-        return super(CompanySerializer, self).update(validated_data)
+        return super(CompanySerializer, self).update(instance, validated_data)
 
     class Meta:
         model = Company
