@@ -22,6 +22,8 @@ def has_store_permission_on_products(store, products):
     :param products: list of products ids.
     :return: True/False
     """
-    return all(p.id in products for p in get_store_by_id(store).product_set.all())
+    store_products = get_store_by_id(store).product_set.all()
+    store_products_ids = [p.id for p in store_products]
+    return all(int(p) in store_products_ids for p in products)
 
 
