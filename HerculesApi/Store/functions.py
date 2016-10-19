@@ -38,7 +38,7 @@ def get_stores_by_user(user):
         qs_stores = \
             Store.objects.filter(
                 # TODO: Maybe remove managers cuz worker cannot edit the store
-                Q(managers=user) |
+                Q(managers__in=user.groups.all()) |
                 Q(company__in=get_companies_by_user(user)))
 
     return qs_stores

@@ -1,7 +1,8 @@
 from HerculesApi.Campaign.functions import get_campaign_by_id
 from HerculesApi.Company.functions import get_company_by_id
-from HerculesApi.Product.functions import get_product_by_id
+from HerculesApi.Product.functions import get_product_by_id, has_store_permission_on_products
 from HerculesApi.Store.functions import get_store_by_id
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
@@ -51,3 +52,11 @@ def is_admin_or_company_manager(user, store_id=None, campaign_id=None, company_i
 
     return user in managers or user.is_superuser or \
            any(g in user.groups.all() for g in workers)
+
+
+def is_able_to_modify_campaign(user, store_id, products):
+    if not is_admin_or_company_manager(user, store_id=store_id):
+        raise PermissionDenied("Only the manager of the company can create/update campaigns.")
+    elif not has_store_permission_on_products(store_id, products):
+        raise PermissionDenied("Product doesnt exists in the store products.")
+    return True

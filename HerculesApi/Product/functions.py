@@ -1,5 +1,5 @@
 from HerculesApi.Product.model import Product
-from HerculesApi.Store.functions import get_stores_by_user
+from HerculesApi.Store.functions import get_stores_by_user, get_store_by_id
 from rest_framework.exceptions import NotFound
 
 
@@ -13,3 +13,15 @@ def get_product_by_id(product_id):
 
 def get_products_by_user(user):
     return Product.objects.filter(store__in=get_stores_by_user(user))
+
+
+def has_store_permission_on_products(store, products):
+    """
+    Check if the given products are in the store products.
+    :param store:
+    :param products: list of products ids.
+    :return: True/False
+    """
+    return all(p.id in products for p in get_store_by_id(store).product_set.all())
+
+
