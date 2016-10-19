@@ -22,7 +22,9 @@ c.groups = []
 c.groups.add(g)
 
 # laviCompany -
-company = Company(name='laviCompany', description='This is lavi company.', managers=g)
+company = Company(name='laviCompany', description='This is lavi company.')
+company.save()
+company.managers.add(c)
 company.save()
 
 # Create laviStore in laviCompany and group of managers of the store(workers).

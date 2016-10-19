@@ -19,7 +19,7 @@ class CompaniesView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
     def update(self, request, *args, **kwargs):
-        if is_admin_or_company_manager(request.user, managers_group_id=request.data['managers']):
+        if is_admin_or_company_manager(request.user, company_id=kwargs.get('pk')):
             return super(CompaniesView, self).update(request, *args, **kwargs)
         else:
             raise PermissionDenied("Only the manager of the company can edit company.")
@@ -33,11 +33,6 @@ class CompaniesView(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         is_user_able_to_create_company(self.request.user)
         super(CompaniesView, self).perform_create(serializer)
-
-    def perform_destroy(self, instance):
-        # TODO: delete the group of the company
-        # delete_group(instance[''])
-        super(CompaniesView, self).perform_destroy(instance)
 
     def get_serializer(self, *args, **kwargs):
         """

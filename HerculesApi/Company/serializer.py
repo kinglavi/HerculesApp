@@ -8,14 +8,19 @@ from HerculesApi.Company.model import Company
 
 
 class CompanySerializer(serializers.ModelSerializer):
-    managers = GroupSerializer(many=False, read_only=True)
 
     def create(self, validated_data):
-        company_name = validated_data['name']
-        g = create_group(self.context['request'].user, company_name)
-        validated_data['managers'] = g
+        requested_user = self.context['request'].user
+        if requested_user not in validated_data['managers']:
+            validated_data['managers'].append(requested_user)
         return super(CompanySerializer, self).create(validated_data)
+
+    def update(self, instance, validated_data):
+        requested_user = self.context['request'].user
+        if requested_user not in validated_data['managers']:
+            validated_data['managers'].append(requested_user)
+        return super(CompanySerializer, self).update(validated_data)
 
     class Meta:
         model = Company
-        fields = ('name', 'created_at', 'description', 'managers')
+        fields = ('name', 'created_at', 'description', 'managers', 'id')
