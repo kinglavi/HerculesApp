@@ -22,6 +22,13 @@ class CardsView(viewsets.ModelViewSet):
 
 @api_view(['GET'])
 def get_all_cards_by_store_view(request, store_id):
+    """
+    This view get all the cards of the store. Only admins or manager of the company
+    able to do this.
+    :param request:
+    :param store_id:
+    :return:
+    """
     if is_admin_or_company_manager(request.user, store_id=store_id,
                                    include_workers=True):
         return Response(get_all_cards_by_store(store_id).values(), status=HTTP_200_OK)

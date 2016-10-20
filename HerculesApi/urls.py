@@ -9,6 +9,8 @@ urlpatterns = [
     url(r'^api/', include('HerculesApi.Customer.urls')),
     url(r'^api/', include('HerculesApi.Card.urls')),
     url(r'^api/', include('HerculesApi.Store.urls')),
+    url(r'^api/', include('HerculesApi.Auth.SignIn.urls')),
+    url(r'^api/', include('HerculesApi.Auth.Login.urls'))
     # url(r'^api-auth/', include('HerculesApi.Auth.urls'))
     # url(r'^api/', include('HerculesApi.Group.urls')),
 ]
